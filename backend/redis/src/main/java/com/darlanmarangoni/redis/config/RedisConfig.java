@@ -1,6 +1,6 @@
 package com.darlanmarangoni.redis.config;
 
-import com.darlanmarangoni.redis.example.Greeting;
+import com.darlanmarangoni.redis.transacao.Transacao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
@@ -13,11 +13,11 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisConfig {
 
     @Bean
-    public ReactiveRedisTemplate<String, Greeting> greetingRedisTemplate(ReactiveRedisConnectionFactory connectionFactory) {
-        JacksonJsonRedisSerializer<Greeting> valueSerializer = new JacksonJsonRedisSerializer<>(Greeting.class);
+    public ReactiveRedisTemplate<String, Transacao> transacaoRedisTemplate(ReactiveRedisConnectionFactory connectionFactory) {
+        JacksonJsonRedisSerializer<Transacao> valueSerializer = new JacksonJsonRedisSerializer<>(Transacao.class);
 
-        RedisSerializationContext<String, Greeting> context = RedisSerializationContext
-                .<String, Greeting>newSerializationContext(new StringRedisSerializer())
+        RedisSerializationContext<String, Transacao> context = RedisSerializationContext
+                .<String, Transacao>newSerializationContext(new StringRedisSerializer())
                 .value(valueSerializer)
                 .build();
 
