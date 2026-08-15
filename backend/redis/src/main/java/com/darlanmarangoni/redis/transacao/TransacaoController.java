@@ -17,9 +17,11 @@ import java.util.UUID;
 public class TransacaoController {
 
     private final TransacaoService transacaoService;
+    private final MovimentacaoService movimentacaoService;
 
-    public TransacaoController(TransacaoService transacaoService) {
+    public TransacaoController(TransacaoService transacaoService, MovimentacaoService movimentacaoService) {
         this.transacaoService = transacaoService;
+        this.movimentacaoService = movimentacaoService;
     }
 
     @PostMapping
@@ -32,8 +34,8 @@ public class TransacaoController {
                 transacao.contaDestino(),
                 transacao.valor());
 
-        return transacaoService.salvar(comId
-                )
+        return transacaoService.salvar(comId)
+                .flatMap(salva -> movimentacaoService.registrar(salva).thenReturn(salva))
                 .map(salva -> ResponseEntity.status(HttpStatus.CREATED).body(salva));
     }
 

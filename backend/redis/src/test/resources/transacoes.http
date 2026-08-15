@@ -55,3 +55,10 @@ GET {{baseUrl}}/transacoes/{{transacaoId}}
 
 ### Busca uma transação inexistente (espera 404)
 GET {{baseUrl}}/transacoes/id-que-nao-existe
+
+### Movimentação da conta de origem (enviado) nas últimas janelas: 2min, 5min e 1h
+GET {{baseUrl}}/movimentacoes/123.456.789-00/0001/12345-6
+
+### Movimentação da conta de destino (recebido) nas últimas janelas
+# CNPJ com barra precisa ser URL-encoded no path: "/" -> "%2F"
+GET {{baseUrl}}/movimentacoes/12.345.678%2F0001-99/0002/98765-4
