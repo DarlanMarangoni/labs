@@ -1,0 +1,57 @@
+### Variáveis
+@baseUrl = http://localhost:18080
+
+### Cria uma transação
+POST {{baseUrl}}/transacoes
+Content-Type: application/json
+
+{
+  "clienteOrigem": {
+    "nome": "Darlan Marangoni",
+    "documento": "123.456.789-00",
+    "contas": [
+      {
+        "agencia": "0001",
+        "numero": "12345-6",
+        "chavesPix": ["darlan@email.com", "123.456.789-00"]
+      },
+      {
+        "agencia": "0001",
+        "numero": "99999-9",
+        "chavesPix": []
+      }
+    ]
+  },
+  "clienteDestino": {
+    "nome": "Fulano de Tal",
+    "documento": "12.345.678/0001-99",
+    "contas": [
+      {
+        "agencia": "0002",
+        "numero": "98765-4",
+        "chavesPix": ["fulano@pix.com"]
+      }
+    ]
+  },
+  "contaOrigem": {
+    "agencia": "0001",
+    "numero": "12345-6",
+    "chavesPix": ["darlan@email.com", "123.456.789-00"]
+  },
+  "contaDestino": {
+    "agencia": "0002",
+    "numero": "98765-4",
+    "chavesPix": ["fulano@pix.com"]
+  },
+  "valor": 250.00
+}
+
+> {%
+    client.global.set("transacaoId", response.body.id);
+%}
+
+### Busca a transação criada acima pelo id retornado
+GET {{baseUrl}}/transacoes/{{transacaoId}}
+
+### Busca uma transação inexistente (espera 404)
+GET {{baseUrl}}/transacoes/id-que-nao-existe
